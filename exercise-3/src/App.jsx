@@ -1,25 +1,54 @@
-import React from "react";
+import React, { useState } from "react";
 
 function App() {
-  /* You will need to use many state to keep the inut values and other needs */
+ 
+  const [a, setA] = useState("");
+  const [b, setB] = useState("");
+  const [result, setResult] = useState("");
+  const [error, setError] = useState("");
 
-  /* You will need some function to handle the key pressed and button events */
+  const onA = (event) => {
+    setA(event.target.value);
+    setError("");
+    setResult("");
+  };
+  const onB = (event) => {
+    setB(event.target.value);
+    setError("");
+    setResult("");
+  };
+
+  const handleCompute = () => {
+    const numA = parseFloat(a);
+    const numB = parseFloat(b);
+    if (isNaN(numA) || isNaN(numB)) {
+      setError("A and B shall be numbery");
+      setResult("");
+    } else {
+      setError("");
+      setResult(numA + numB);
+    }
+  };
 
   return (
     <main>
       <h1>Calculator</h1>
 
       <label>A =</label>
-      <input onKeyUp={onA} />
+      <input type="text" onKeyUp={onA} />
 
       <label>B =</label>
-      <input onKeyUp={onB} />
+      <input type="text" onKeyUp={onB} />
 
       <label>A + B =</label>
+      <input
+        type="text"
+        value={error ? error : result}
+        disabled
+        style={{ color: error ? "red" : "black" }}
+      />
 
-      {/* When Compute buton is clicked, this input display the sum of the 2 numbers, or the error message in RED */}
-      <input disabled />
-      <button>Compute</button>
+      <button onClick={handleCompute}>Compute</button>
     </main>
   );
 }
